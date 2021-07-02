@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- MAIN STYLES -->
+		<link rel="stylesheet" href="/media/hugo/Data/Projects/editor-v4/css/master.css">
+
+		<!-- PRISM -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.css">
+		<link rel="stylesheet" href="/media/hugo/Data/Projects/editor-v4/css/material.css">
+		<script defer type="text/javascript">
+			function removeWS() {
+				Prism.plugins.NormalizeWhitespace.setDefaults({
+					'remove-trailing': true,
+					'remove-indent': true,
+					'left-trim': true,
+					'right-trim': true,
+				});
+			}
+		</script>
+		<script onload="removeWS()" defer src="https://cdn.jsdelivr.net/combine/npm/prismjs@1.23.0,npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs@1.23.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js,npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js" charset="utf-8"></script>
+
+		<!-- KATEX -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.5/dist/katex.min.css" integrity="sha384-L+Gq2Cso/Y2x8fX4wausgiZT8z0QPZz7OqPuz4YqAycQJyrJT9NRLpjFBD6zlOia" crossorigin="anonymous">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.5/dist/katex.min.js" integrity="sha384-z64WtjpyrKFsxox9eI4SI8eM9toXdoYeWb5Qh+8PO+eG54Bv9BZqf9xNhlcLf/sA" crossorigin="anonymous"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.5/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+		<script defer>
+			document.addEventListener("DOMContentLoaded", function() {
+				renderMathInElement(document.body, {
+					delimiters: [
+						{left: "$$", right: "$$", display: true},
+						{left: "$", right: "$", display: false}
+					]
+				});
+			});
+		</script>
+
+		<!-- Paged -->
+		<!-- <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script> -->
+	</head>
+	<body>
+
+		<nav>
+			<t-o-c></t-o-c>
+		</nav>
+
+		<article class="article">
+			<t-b title="Reconstruction de phase">
+
+	<t-b title="Introduction" nocount markdown>
+
+	Ce document est une synthèse de mes recherches sur quelques méthodes de reconstruction de phase. Il se veut succint, court, mais bien documenté grâce — entre autres — à de nombreux liens vers les publications originales.
+
+	Bonne lecture,
+
+	Hugo.
+
+</t-b>
+
+	
+	<t-b title="Algorithme de Griffin-Lim">
+
+	<t-b title="Introduction">
+
+		<p>Cette méthode, mise au point par Griffin et Lim en 1984, se base sur des transformées de Fourier à court terme (<b>S</b>hort <b>T</b>ime <b>F</b>ourier <b>T</b>ransform, <b>STFT</b>, en anglais) avec des fenêtres qui se chevauchent.</p>
+
+	</t-b>
+
+	<t-b title="Présentation de la méthode">
+
+		<p>L'idée principale de cet algorithme est d'essayer de garder une certaine <b>cohérence</b> dans le spectrogramme. En effet, tous les spectrogrammes ne correspondent pas forcément à un signal réel. Un exemple :</p>
+
+		<figure>
+			<img src="../assets/gla/consistency.png" alt="">
+			<figcaption>Un exemple</figcaption>
+		</figure>
+
+		<p>En haut à gauche, un signal qui va être fenêtré trois fois (haut / milieu). On remarque que la première et troisième fenêtre contiennent le même signal dont la fréquence varie peu, tandis que la deuxième fenêtre est plus complexe. Cela se traduit dans le spectrogramme (haut / droite) par le fait que la première et dernière colonne, peu de fréquences sont <q>allumées</q> (2 cases en noir ici, car le spectrogramme est symétrique). Dans la colonne du milieu, en revanche, le contenu spectral est plus riche.</p>
+
+		<p>Imaginons maintenant que l'on souhaite filtrer le spectrogramme, en mettant la colonne du milieu à zéro par exemple (milieu / droite). Si l'on calcule l'inverse de chaque colonne, on se retrouve avec 3 signaux dont celui du milieu est nul (milieu / milieu). En recomposant le signal (milieu / gauche), on se retrouve une partie centrale atténuée.</p>
+
+		<p>Pourtant, si à partir de ce signal (bas / gauche) on décide de recalculer le spectrogramme, on obtient un résultat (bas / droite) différent du spectrogramme modifié précédemment. Ceci vient du fait que, les fenêtres se chevauchant, la deuxième fenêtre du dernier signal n'est pas nulle comme attendu.</p>
+
+		<p>Cet exemple montre bien que certains spectrogrammes ne sont pas cohérents, dans le sens où le calcul du spectrogramme d'aucun signal réel ne leur correspondra.</p>
+
+		<p>Revenons maintenant à ce qui nous intéresse et imaginons que nous avons une donnée d'entrée $|Y|$ qui correspond au module de la STFT d'un signal $y$. Notre but est d'essayer de reconstituer une information de phase afin de trouver un $\hat{Y}$ proche de $Y$ (dont nous ne connaissons que le module, donc).</p>
+
+		<p>L'idée de Griffin et Lim est de répéter deux projections, qui correspondent aux deux contraintes que l'on a sur notre STFT :</p>
+		<ol>
+			<li>elle doit être cohérente (il doit exister un signal tel que sa STFT corresponde à celle-ci)</li>
+			<li>son module doit être égal à $|Y|$, donnée d'entrée</li>
+		</ol>
+
+		<p>Voici l'algorithme utilisé :</p>
+		<ul>
+			<li>On initialise $\hat{y}_0$ avec du bruit</li>
+			<li>On répète $n$ fois :
+				<ul>
+					<li>$\hat{Y}_k = STFT(\hat{y}_k)$</li>
+					<li>$|\hat{Y}_k| = |Y|$</li>
+					<li>$\hat{y}_{k+1} = ISTFT(\hat{Y}_k)$</li>
+				</ul>
+			</li>
+			<li>On renvoie $\hat{y} := \hat{y}_n$</li>
+		</ul>
+
+		<p>Ils démontrent que ce procédé converge vers un minimum <b>local</b> de l'erreur suivante :</p>
+
+		$$ D(\hat{y}, Y) = \sum \int \left[ |\hat{Y}| - |Y| \right]^2  $$
+
+	</t-b>
+
+	<t-b title="Résultats">
+
+		<table>
+			<thead>
+				<tr>
+					<th>Titre</th>
+					<th>Extrait</th>
+					<th>Reconstruction par modules</th>
+					<th>Reconstuction par Griffin-Lim</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Billie Jean <br> Michael Jackson</th>
+					<th><audio src="../assets/gla/billie.wav" controls></audio></th>
+					<th><audio src="../assets/gla/billie_mod.wav" controls></audio></th>
+					<th><audio src="../assets/gla/billie_gla.wav" controls></audio></th>
+				</tr>
+				<tr>
+					<th>Aerodynamic <br> Daft Punk</th>
+					<th><audio src="../assets/gla/aerodynamic.wav" controls></audio></th>
+					<th><audio src="../assets/gla/aerodynamic_mod.wav" controls></audio></th>
+					<th><audio src="../assets/gla/aerodynamic_gla.wav" controls></audio></th>
+				</tr>
+			</tbody>
+		</table>
+
+	</t-b>
+
+	<t-b title="Conclusion">
+
+	</t-b>
+
+</t-b>
+
+
+</t-b>
+
+		</article>
+
+		<!-- MD -->
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+		<script type="text/javascript">
+			document.querySelectorAll('.md').forEach(el => {
+				el.innerHTML = marked(el.innerHTML.replace(/\t/g, ''));
+			});
+		</script>
+
+		<!-- CE -->
+		<script src="/media/hugo/Data/Projects/editor-v4/js/toc.js" charset="utf-8"></script>
+		<script src="/media/hugo/Data/Projects/editor-v4/js/ce.js" charset="utf-8"></script>
+	</body>
+</html>
