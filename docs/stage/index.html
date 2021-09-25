@@ -380,7 +380,7 @@
 	Cette méthode est basée sur le constat suivant : l'accompagnement musical d'un morceau de musique est souvent répétitif (boucles), tandis que le chant ne l'est pas. Cela peut se vérifier sur le spectrogramme suivant :
 
 	<figure>
-		<img src="/assets/2dft/spectrogramme.png" alt="">
+		<img src="assets/2dft/spectrogramme.png" alt="">
 		<figcaption>Spectrogramme d'un extrait de Billie Jean, de Michael Jackson</figcaption>
 	</figure>
 
@@ -389,7 +389,7 @@
 	Une manière élégante d'y parvenir est de prendre la transformée de Fourier 2D de ce spectrogramme $\widetilde{X}(s,r) \coloneqq \mathcal{FT}_{2D} \{ X(f, t) \}$. En effet, la transformée de Fourier permet d'identifier les composantes périodiques d'un signal :
 
 	<figure>
-		<img src="/assets/2dft/2dft.png" alt="">
+		<img src="assets/2dft/2dft.png" alt="">
 		<figcaption>Transformée de Fourier 2D du module du spectrogramme précédent</figcaption>
 	</figure>
 
@@ -414,14 +414,14 @@
 	Ces masques, appliqués à $\widetilde{X}$ permettent de séparer cette transformée :
 
 	<figure>
-		<img src="/assets/2dft/separated_2dft.png" alt="">
+		<img src="assets/2dft/separated_2dft.png" alt="">
 		<figcaption>Séparation de $\widetilde{X}$</figcaption>
 	</figure>
 
 	En appliquant la transformée inverse, on se retrouve avec deux "presque-spectrogrammes", $X_{bg}$ et $X_{fg}$ correspondant à l'arrière-plan et à l'avant-plan :
 
 	<figure>
-		<img src="/assets/2dft/separated_spectrograms.png" alt="">
+		<img src="assets/2dft/separated_spectrograms.png" alt="">
 		<figcaption>"Presque-spectrogrammes" séparés</figcaption>
 	</figure>
 
@@ -438,7 +438,7 @@
 	On les applique à $X$ pour obtenir les deux spectrogrammes finaux :
 
 	<figure>
-		<img src="/assets/2dft/separated_spectrograms_2.png" alt="">
+		<img src="assets/2dft/separated_spectrograms_2.png" alt="">
 		<figcaption>"Spectrogrammes" séparés</figcaption>
 	</figure>
 
