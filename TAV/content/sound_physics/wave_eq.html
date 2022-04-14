@@ -1,0 +1,26 @@
+<section title="Équation d'onde">
+
+	Plaçons-nous dans le cas `1D` et intéressons-nous à une tranche d'un milieu homogène (de l'air, par exemple) :
+
+	<svg viewBox="0 0 100 100" style="width: 100px;">
+		<line x1="0" y1="50" x2="100" y2="50" stroke="white" />
+		<rect x="25" y="35" width="50" height="30" fill="white" />
+	</svg>
+
+	Cette tranche a une masse $m = \rho  dx$.
+
+	La tranche a maintenant une masse $m = \rho (dx + dy) = m_0 + \rho dy$.
+
+	$p = - \kappa \frac{\partial l}{L} = - \kappa \frac{dy}{dx}$
+
+	D'après la seconde loi de Newton, on a :
+	$$
+	\begin{align}
+		ma &= (P_1 - P_2) A \\
+		\rho A \partial x \frac{\partial^2 y}{\partial t^2} &= (P_1 - P_2)A \\
+		\frac{P_2 - P_1}{\partial x} &= - \rho \frac{\partial^2 y}{\partial t^2} \\
+		\frac{\partial p}{\partial x} &= - \rho \frac{\partial^2 y}{\partial t^2} \\
+	\end{align}
+	$$
+
+</section>

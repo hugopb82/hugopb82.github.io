@@ -1,0 +1,27 @@
+<section title="Fast Fourier Transform">
+
+	Le calcul de la DFT peut être largement optimisé si l'on travaille avec des signaux dont taille est une puissance de $2$.
+
+	En effet, voyons ce qu'il se passe quand on calcule la DFT d'un signal $x$ de taille $N = 2M$. 
+	
+	On peut remarquer que $\forall k, n \in \{0, \dots, N-1 \}$, $\sigma_M^{kn} = \sigma_{N}^{2kn}$.
+
+	Ceci permet de calculer la DFT de $x$ de façon astucieuse :
+
+	$$
+	\begin{aligned}
+	X(k) 	&= \sum_{n=0}^{N-1} x_n \sigma_{N}^{kn} \\		
+			&= \sum_{m=0}^{M-1} x_{2m} \sigma_{N}^{k(2m)} + \sum_{m=0}^{M-1} x_{2m+1} \sigma_{N}^{k(2m+1)} \qquad \text{\footnotesize{en séparant les termes pairs / impairs}} \\	
+			&= \sum_{m=0}^{M-1} x_{2m} \sigma_{M}^{km} + \sum_{m=0}^{M-1} x_{2m+1} \sigma_{M}^{km} \sigma_{N}^k \\
+			&= \sum_{m=0}^{M-1} x_{2m} \sigma_{M}^{km} + \sigma_{N}^k \sum_{m=0}^{M-1} x_{2m+1} \sigma_{M}^{km} \\
+			&= DFT(x(0,2,\dots,N-2))(k) + \sigma_{N}^k DFT(x(1,3,\dots,N-1))(k)
+	\end{aligned}
+	$$
+
+	Si $M$ est divisible par $2$, on peut répéter le processus.
+
+	<section title="Complexité">
+		
+	</section>
+
+</section>

@@ -1,0 +1,43 @@
+<section title="Rappels d'algèbre">
+
+	À partir de maintenant, nous allons supposer travailler avec des signaux discrets de taille finie. Ceci est justifié par deux raisons :
+	1. Nos ordinateurs ne savent pas traiter des signaux continus ou de taille infinie.
+	2. Les objets mathématiques sont beaucoup plus simples à définir (les sommes finies se manipulent avec moins de précautions que des intégrales impropres ou des sommes infinies).
+	
+	Cependant, s'il est possible de voir l'analyse de Fourier discrète comme un cas particulier de l'analyse de Fourier, on peut aussi voir l'analyse de Fourier comme une généralisation de l'analyse de Fourier discrète. Il en vient que bon nombre d'idées et de résultats que nous allons voir par la suite sont transposables dans un cadre plus général (mais plus dur à définir).
+
+	Nos signaux vivent donc dans un monde discret et de taille finie. Comment les représenter et les manipuler ? L'idée la plus intuitive est de définir un tel signal par la liste des valeurs qu'il prend. Si l'on se souvient en plus que l'on va sûrement être amené à additionner des signaux, le monde en question devient sans aucun doute un espace vectoriel. Pour des signaux réels (ceux qui nous intéressent), on travaillera dans $\R^N$ où $N$ est la taille des signaux. Pour des signaux complexes (ceux qui nous permettent de simplifier les calculs), on se placera dans $\mathbb{C}^N$.
+
+	<section title="Espaces vectoriels">
+
+		Soit $E$ un espace vectoriel de dimension finie $N$.
+
+		En particulier, $\mathbb{C}^N$ est un $\mathbb{C}$-espace vectoriel de dimension $1$, ou encore un $\R$-espace vectoriel de dimension $2$.
+
+		On appelle **base** de $E$ toute famille de vecteurs $(v_0, v_1, \dots, v_{N-1})$ qui est libre et génératrice de $E$. En d'autres termes, on peut écrire de façon unique tout vecteur de $E$ comme une combinaison linéaire des $(v_i)$.
+
+		Si l'on dispose de deux bases $\mathcal{B}_1$ et $\mathcal{B}_2$, on peut facilement passer de la représentation d'un vecteur $x \in E$ dans la base $\mathcal{B}_2$ à sa représentation dans la base $\mathcal{B}_1$ grâce aux matrices de changement de base.
+
+	</section>
+
+	<section title="Espaces préhilbertiens">
+
+		Un espace préhilbertien $E$ est un espace vectoriel muni d'un produit scalaire.
+
+		$\mathbb{C}^N$ peut être muni du produit scalaire usuel suivant :
+		$$
+			\forall x, y \in \mathbb{C}^N, \quad 
+			\langle x, y \rangle \coloneqq \sum_{n = 0}^{N-1} x(n)\bar{y}(n)
+		$$
+
+		Un produit scalaire peut être vu comme une mesure de similarité entre deux vecteurs.
+
+		On dit que deux vecteurs $x$ et $y$ de $E$  sont orthogonaux si leur produit scalaire est nul : $x\perp y \iff \langle x,y \rangle = 0$
+
+		On appelle famille orthogonale une famille dont les vecteurs sont deux à deux orthogonaux.
+
+		Si $(e_0, \dots, e_{N-1})$ est une base orthogonale de $E$, 
+
+	</section>
+
+</section>
