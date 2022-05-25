@@ -1,0 +1,73 @@
+<section title="Introduction">
+
+	<section title="Définition : Reconnaissance musicale ?">
+
+		Le but de la reconnaissance musicale est de trouver automatiquement des morceaux similaires à une certaine requête.
+
+		On peut donner une définition plus ou moins contraignante de la similarité entre deux enregistrements :
+- *Audio identification / Audio fingerprinting* : deux morceaux sont similaires s'ils correspondent exactement au même enregistrement, modulo de "petites" transformations.
+- *Audio matching* : deux morceaux sont similaires s'ils correspondent à des enregistrements d'une même oeuvre musicale.
+- *Version identification / Cover song retrieval* : deux morceaux sont similaires s'ils s'inspirent d'une même oeuvre
+- ...
+
+		<table>
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Extrait</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Karajan</th>
+					<th><audio src="../musics/samples/Karajan.wav" controls></audio></th>
+				</tr>
+				<tr>
+					<th>Furtwangler</th>
+					<th><audio src="../musics/samples/Furtwangler.wav" controls></audio></th>
+				</tr>
+				<tr>
+					<th>Eschenbach</th>
+					<th><audio src="../musics/samples/Eschenbach.wav" controls></audio></th>
+				</tr>
+				<tr>
+					<th>Listz</th>
+					<th><audio src="../musics/samples/Listz.wav" controls></audio></th>
+				</tr>
+				<tr>
+					<th>Stupeflip</th>
+					<th><audio src="../musics/samples/Stupeflip.wav" controls></audio></th>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- <audio src="../musics/samples/Karajan.wav" controls></audio>
+		<audio src="../musics/samples/Furtwangler.wav" controls></audio>
+		<audio src="../musics/samples/Eschenbach.wav" controls></audio>
+		<audio src="../musics/samples/Listz.wav" controls></audio>
+		<audio src="../musics/samples/Stupeflip.wav" controls></audio> -->
+
+		Nous nous intéresserons par la suite à l'identification audio.
+
+	</section>
+
+	<section title="Problématique(s)">
+
+		Si le cerveau humain est capable de percevoir aisément les différences et les similitudes de ces enregistrements, il est complexe de décrire précisément l'algorithme qui est à l'oeuvre.
+
+		Une première piste pourrait être de comparer les données brutes : les ondes sonores. Cependant, celles-ci sont très sensibles au bruit
+
+		<figure>
+			<img src="../images/noise.png" alt="">
+		</figure>
+
+		Nous souhaitons en outre que notre système ait les propriétés suivantes :
+- Enregistrements d'une dizaine de secondes suffisants
+- Besoin de peu de stockage
+- Algorithme rapide
+- Robuste au bruit
+- Robuste à d'autres transformations ?
+
+	</section>
+
+</section>

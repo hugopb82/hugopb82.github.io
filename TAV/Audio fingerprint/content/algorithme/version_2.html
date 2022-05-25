@@ -1,0 +1,55 @@
+<section title="Version 2">
+
+	<section title="Stockage des empreintes">
+
+		Avec la version *1 bis*, on s'est rendus compte qu'il était plus efficace de réfléchir directement sur les indices de fréquences des pics de l'extrait à analyser. En poursuivant notre raisonnement, on peut se dire que l'on fait encore beaucoup de calculs inutiles : s'il existe un pic $(m, k)$ dans $\mathcal{C}(q)$ et qu'un morceau $d_i$ ne contient aucun pic en $k$, il est inutile de le tester.
+
+		Dès lors, il est préférable de ranger nos données par indice fréquence plutôt que par identifiant des chansons :
+
+		<table>
+			<thead>
+				<tr>
+					<th>$k$</th>
+					<th>$m$</th>
+					<th>$id$</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>$120$</th>
+					<th>$4$</th>
+					<th>$1$</th>
+				</tr>
+				<tr>
+					<th>$\vdots$</th>
+					<th>$\vdots$</th>
+					<th>$\vdots$</th>
+				</tr>
+				<tr>
+					<th>$140$</th>
+					<th>$8$</th>
+					<th>$73$</th>
+				</tr>
+			</tbody>
+		</table>
+
+		Désormais, on peut directement récupérer tous les pics apparaissant à un indice fréquence $k$, et pour chacun des ces pics l'on est assurés d'avoir un décalage qui permette la superposition avec notre pic d'extrait $(m, k)$.
+
+	</section>
+
+	<section title="Comparaison des empreintes">
+
+		On peut donc ré-écrire l'algorithme comme suit :
+
+		<pre>
+Pour $(m, k) \in \mathcal{C}(q)$
+$requete \coloneqq \mathcal{D}(k)$
+    Pour $(m', k, id) \in requete$
+        $res[id][m' - m]++$
+		</pre>
+
+		Complexité : $\# \mathcal{C}(q) \times \frac{N \times \# \mathcal{C}(d)}{N_k}$
+
+	</section>
+
+</section>

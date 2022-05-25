@@ -1,0 +1,11 @@
+<section title="Conclusions">
+
+	Nous avons détaillé ici le fonctionnement général de l'algorithme d'identification musicale proposé par Wang en 2003. Bien que simple, cet algorithme permet d'obtenir de très bons résultats sur des extraits peu transformés, et ce en gardant des besoins en taille mémoire et en temps de calcul raisonnables.
+
+	Cependant, il est possible d'améliorer ces résultats en utilisant des spectrogrammes plus adaptés à des données musicales (mel-spectrogram, chromagrams, CQT...)
+
+	De plus, notre système possède quelques limitations. Notamment, des variations de vitesse et / ou de hauteur font échouer l'identification. Une solution assez simple à mettre en oeuvre consiste à considérer des triplets plutôt que des paires de points pour générer nos empreintes. Cela permet de stocker les rapports de temps et de fréquences entre les trois points.
+
+	Enfin, des méthodes basées sur de l'apprentissage telles que *HumToSearch* de *Google* constituent l'état de l'art en matière d'identification musicale. Ces méthodes sont plus flexibles (possible de chanter / siffler), plus rapides, et tendent à demander moins de ressources que les méthodes classiques.
+
+</section>

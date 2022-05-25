@@ -1,0 +1,106 @@
+<section title="Version 1">
+
+	Nous avons vu en introduction qu'il était nécessaire de trouver des caractéristiques ayant de bonnes propriétés afin de pouvoir comparer rapidement des enregistrements musicaux. De telles caractéristiques sont souvent appelées "empreintes sonores" (ou *audio fingerprint* en anglais), par analogie avec les empreintes digitales qui permettent de différencier les individus.
+
+	Notre système de reconnaissance musicale doit donc comporter deux étapes cruciales :
+
+	- une fonction permettant de créer des empreintes
+	- une fonction permettant de comparer des empreintes
+
+
+	[Schéma]
+
+	<section title="Création des empreintes">
+
+		Les empreintes utilisées par Wang sont basées sur le concept de "pics spectraux". L'idée est d'utiliser les coordonnées des pics d'intensité d'un spectrogramme pour caractériser un enregistrement audio. De tels descripteurs possèdent de bonnes caractéristiques :
+		
+		1. Ils sont très représentatifs : il y a peu de chances que deux enregistrements différents possèdent les mêmes pics spectraux (à voir suivant la sélection desdits pics)
+		2. Ils sont robustes aux bruits
+		3. Leur sélection permet de réduire considérablement la dimensionnalité du problème : on ne travaille plus avec toutes les données, seulement les plus représentatives.
+		4. Il est possible de les stocker et de les comparer efficacement.
+		
+		Mathématiquement parlant, soit $y$ un signal et $Y$ sa STFT. Un point $(m_0, k_0)$ est considéré comme un pic si :
+		
+		$$ | Y(m_0, k_0) | \geq \max \left( |Y(m,k)|, \epsilon \right) $$
+
+		pour tout $m \in [m_0 - \tau : m_0 + \tau]$, $k \in [k_0 - \phi : k_0 + \phi]$.
+
+		Les paramètres $\tau$ et $\phi$ permettent de régler la largeur temporelle et fréquentielle de la fenêtre considérée. Ils permettent donc de régler la densité des pics souhaitée. Leur donner de "grandes valeurs" aura pour conséquence de ne sélectionner que les plus grands pics, qui sont plus spécifiques mais peut-être pas suffisants pour distinguer plusieurs extraits. A contrario, de "petites valeurs" amèneront à un grand nombres de pics, ce qui va impacter la vitesse de l'identification.
+		Le paramètre $\epsilon$ permet de définir un seuil en dessous duquel les maxima ne sont plus considérés comme des pics.
+
+		<figure>
+			<img src="../images/spectral_peaks.png" alt="">
+		</figure>
+
+		Une telle représentation est appelée *constellation* par Wang.
+
+		[Robustesse des constellations]
+
+	</section>
+
+	<section title="Stockage des empreintes">
+
+		<table>
+			<thead>
+				<tr>
+					<th>$id$</th>
+					<th>$m$</th>
+					<th>$k$</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>$1$</th>
+					<th>$120$</th>
+					<th>$4$</th>
+				</tr>
+				<tr>
+					<th>$\vdots$</th>
+					<th>$\vdots$</th>
+					<th>$\vdots$</th>
+				</tr>
+				<tr>
+					<th>$73$</th>
+					<th>$140$</th>
+					<th>$8$</th>
+				</tr>
+			</tbody>
+		</table>
+
+	</section>
+
+	<section title="Comparaison des empreintes">
+
+		Maintenant que l'on a une fonction pour créer des empreintes sonores, il est possible de constituer une base de données $\mathcal{D}$ contenant les empreintes de $N$ morceaux $(d_i)$. Si l'on considère un extrait $q$ de l'un de ces morceaux, il nous faut désormais une fonction permettant de comparer son empreinte $\mathcal{C}(q)$ avec celles présentes dans la base $(\mathcal{C}(d_i))$.
+
+		Une façon simple (mais très peu efficace) de faire est de superposer la constellation de l'extrait sur la constellation d'un morceau, puis de la décaler pas à pas jusqu'à trouver le meilleur décalage.
+
+		[Schéma]
+
+		On note :
+		$$m_0 + \mathcal{C}(q) \coloneqq \left\{ (m_0 + m, k), (m, k) \in \mathcal{C}(q) \right\}$$ la version décalée de la constellation de l'extrait.
+
+		On note :
+		$$ \Delta_{q, d_i}(m_0) \coloneqq \# \left( m_0 + \mathcal{C}(q) \right) \cap \mathcal{C}(d_i) $$
+		la fonction permettant de comparer deux extrait.
+
+		Au final, le meilleur extrait est donné par :
+		$$ \argmax_{d_i} \max_{m_0} \Delta_{q, d_i}(m_0) $$
+
+		On peut aussi donner le pseudo-code suivant :
+
+		<pre>
+Pour $i = 1, \dots, N$
+    $\mathcal{C}(d_i) \coloneqq \mathcal{D}(d_i)$
+    Pour $m_0 = 1, \dots, N_{decalages}$
+        Pour $(m, k) \in \mathcal{C}(q)$
+            Pour $(m', k') \in \mathcal{C}(d_i)$
+                Si $k = k'$ Alors
+                    $res[d_i][m_0]++$
+		</pre>
+
+		Complexité : $N \times N_{decalages} \times \# \mathcal{C}(q) \times \# \mathcal{C}(d)$
+
+	</section>
+
+</section>

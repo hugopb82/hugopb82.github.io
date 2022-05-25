@@ -1,0 +1,24 @@
+<section title="Version 1 (bis)">
+
+	<section title="Comparaison des empreintes">
+
+		En fait, l'algorithme précédent clacule beaucoup de choses en trop. Notamment, si un pic dans $\mathcal{C}(q)$ et un pic dans $\mathcal{C}(d_i)$ ont des indices de fréquences différents, il est inutile de tester tous les décalages pour voir s'ils se superposeront à un moment : c'est impossible.
+
+		L'idée est plutôt de réfléchir sur les pics eux mêmes : pour chaque pic de $\mathcal{C}(q)$, on regarde tous les pics de $\mathcal{C}(d_i)$ qui ont le même indice de fréquence. On sait alors directement qu'il existera des décalages tel que les pic de $\mathcal{C}(q)$ se superpose avec ces pics de $\mathcal{C}(d_i)$.
+
+		On peut donc ré-écrire l'algorithme comme suit :
+
+		<pre>
+Pour $i = 1, \dots, N$
+$\mathcal{C}(d_i) \coloneqq \mathcal{D}(d_i)$
+    Pour $(m, k) \in \mathcal{C}(q)$
+        Pour $(m', k') \in \mathcal{C}(d_i)$
+            Si $k = k'$ Alors
+                $res[d_i][m' - m]++$
+		</pre>
+
+		Complexité : $N \times \# \mathcal{C}(q) \times \# \mathcal{C}(d)$
+
+	</section>
+
+</section>

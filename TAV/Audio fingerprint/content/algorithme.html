@@ -1,0 +1,44 @@
+<section title="Algorithme">
+
+	L'un des premiers algorithmes d'identification musicale a été mis au point en 2003 par Wang et sert de base à Shazam. C'est un algorithme simple et efficace, mais non robuste à certaines transformations telles que la variation de vitesse ou le changement de hauteur. Toutefois, il est possible d'améliorer certaines parties de l'algorithme pour pallier ces limitations.
+
+	<section title="Fonctionnement général">
+
+		L'idée est de générer des empreintes sonores à partir d'enregistrements musicaux qui soient suffisamment discriminantes pour les distinguer et légères pour être stockées.
+
+		Au départ, une base de données contenant les empreintes d'enregistrements complets est créée.
+
+		Quand on veut reconnaître un extrait d'une dizaine de secondes, on calcule son empreinte sonore et on la compare avec celles stockées dans la base. Si on trouve une correspondance satisfaisante, on renvoie le résultat. 
+
+	</section>
+
+	<section title="Création des empreintes">
+
+		Les empreintes utilisées par Wang sont basées sur le concept de "pics spectraux". L'idée est d'utiliser les coordonnées des pics d'intensité d'un spectrogramme pour caractériser un enregistrement audio. De tels descripteurs possèdent de bonnes caractéristiques :
+		
+		1. Ils sont très représentatifs : il y a peu de chances que deux enregistrements différents possèdent les mêmes pics spectraux (à voir suivant la sélection desdits pics)
+		2. Ils sont robustes aux bruits
+		3. Leur sélection permet de réduire considérablement la dimensionnalité du problème : on ne travaille plus avec toutes les données, seulement les plus représentatives.
+		4. Il est possible de les stocker et de les comparer efficacement.
+		
+		Mathématiquement parlant, soit $y$ un signal et $Y$ sa STFT. Un point $(n_0, k_0)$ est considéré comme un pic si :
+		
+		$$ | Y(n_0, k_0) | \geq |Y(n,k) | $$
+
+		pour tout $n \in [n_0 - \eta : n_0 + \eta]$, $k \in [k_0 - \kappa : k_0 + \kappa]$.
+
+		Les paramètres $\eta$ et $\kappa$ permettent de régler la largeur temporelle et fréquentielle de la fenêtre considérée. Ils permettent donc de régler la densité des pics souhaitée. Leur donner de "grandes valeurs" aura pour conséquence de ne sélectionner que les plus grands pics, qui sont plus spécifiques mais peut-être pas suffisants pour distinguer plusieurs extraits. A contrario, de "petites valeurs" amèneront à un grand nombres de pics, ce qui va impacter la vitesse de l'identification.
+
+		<figure>
+			<img src="../images/spectral_peaks.png" alt="">
+		</figure>
+
+	</section>
+
+	<section title="Comparaison des empreintes">
+
+		
+
+	</section>
+
+</section>
